@@ -34,7 +34,6 @@ async function startInterview() {
 
 async function getNextQuestion() {
 	try {
-
 		// Create a FormData object to hold the audio file and metadata
 		const formData = new FormData();
 		formData.append('audio', audioFile); // Audio file to send
@@ -47,6 +46,12 @@ async function getNextQuestion() {
 		});
 
 		const responseData = await response.json();
+
+		if (response.status === 201) {
+			// TODO: Interview is complete
+			console.log('Interview complete!');
+			return;
+		}
 
 		contextDialogue = responseData.context_dialogue;
 		const audioDataHex = responseData.audio_data;
