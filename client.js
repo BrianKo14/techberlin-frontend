@@ -32,7 +32,7 @@ async function startInterview() {
 	}
 }
 
-async function getNextQuestion() {
+async function getNextQuestion(audioFile) {
 	try {
 		// Create a FormData object to hold the audio file and metadata
 		const formData = new FormData();
@@ -92,5 +92,26 @@ async function fetchMatches() {
 
 	} catch (error) {
 		console.error('Failed to fetch matches:', error);
+	}
+}
+
+async function askQuestion(dialogueHistory, question, userId) {
+	try {
+		const response = await fetch('/matches/ask-question', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json'},
+			body: JSON.stringify({ 
+				dialogue_history: dialogueHistory,
+				question: question,
+				user_id: userId
+			})
+		});
+
+		const responseData = await response.json();
+
+		return responseData;
+
+	} catch (error) {
+		console.error('Failed to ask question:', error);
 	}
 }
